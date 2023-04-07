@@ -232,7 +232,7 @@ const InputCard = styled.input`
   background-color: #ffffff;
   color: #333333;
 
-  @media (max-width: 768px) {
+  @media (max-width: 500px) {
     flex: 1
   }
 `;

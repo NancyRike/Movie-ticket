@@ -22,7 +22,6 @@ export const Landingpage = () => {
         <Title>Browse Movies</Title>
           <MovieList>
             {getMovieList?.data.slice(0, 6).map((item, index) => {
-              console.log(item)
               return (
                 <MovieDetails key={index}>
                     <MovieImg src={item.images[0]} />
