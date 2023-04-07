@@ -13,7 +13,7 @@ export const Footer = () => {
             </LogoSection>
             <FooterInput />
             <FooterInput />
-        <Button>BOOK</Button>
+            <Button>BOOK</Button>
           </FooterSubMenu1>
           <FooterSubMenu2>
             <TitleText>About</TitleText>
@@ -47,31 +47,38 @@ export const Footer = () => {
 };
 
 const Container = styled.section`
-  /* background-color: black; */
   padding: 40px 84px 80px;
-  border-top: 1px solid #BDC5D5;;
-  /* color: #ffffff; */
+  border-top: 1px solid #bdc5d5;
 
   @media (min-width: 1440px) {
     max-width: 1440px;
-    margin: auto
+    margin: auto;
+  }
+  @media (max-width: 768px) {
+    padding: 40px 30px 40px;
   }
 `;
 const FooterContainer = styled.div`
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 `;
 const FooterSubMenu = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
 `;
 const FooterSubMenu1 = styled.div``;
-const FooterSubMenu2 = styled.div``;
+const FooterSubMenu2 = styled.div`
+  margin-top: 20px;
+`;
 
 const CreatedBy = styled.small`
-    display: flex ;
-    justify-content: flex-end;
-    margin-top: 50px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 50px;
 `;
 const LogoSection = styled.div`
   width: 150px;
@@ -83,29 +90,27 @@ const LogoImage = styled.img`
   height: 100%;
 `;
 const FooterInput = styled.input`
-    display: block;
-    margin: 10px 0;
-    border: none;
-    outline: none;
-    height: 30px;
-    width: 150px;
-    border-radius: 3px;
-
+  display: block;
+  margin: 10px 0;
+  border: none;
+  outline: none;
+  height: 30px;
+  width: 150px;
+  border-radius: 3px;
 `;
 const Button = styled.button`
-    background-color: #3D7CC9;
-    color: white;
-    height: 30px;
-    width: 80px;
-    border: none;
-    border-radius: 5px;
-`
+  background-color: #3d7cc9;
+  color: white;
+  height: 30px;
+  width: 80px;
+  border: none;
+  border-radius: 5px;
+`;
 const TitleText = styled.h6`
-    font-size: 18px;
-    margin-bottom: 15px;
-
-`
+  font-size: 18px;
+  margin-bottom: 15px;
+`;
 const FooterText = styled.p`
-margin-bottom: 12px;
-font-size: 14px
-`
+  margin-bottom: 12px;
+  font-size: 14px;
+`;

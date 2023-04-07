@@ -22,10 +22,12 @@ export const Landingpage = () => {
         <Title>Browse Movies</Title>
           <MovieList>
             {getMovieList?.data.slice(0, 6).map((item, index) => {
+              console.log(item)
               return (
                 <MovieDetails key={index}>
                     <MovieImg src={item.images[0]} />
                   <MovieTitle>{item.title}</MovieTitle>
+                  <MovieDescription>{item.plot}</MovieDescription>
                   <ViewMoreButton onClick={()=>navigate('/booking', {state: item.id})} >View Movie</ViewMoreButton>
                 </MovieDetails>
               );
@@ -58,10 +60,7 @@ const Container = styled.main`
   font-family: "Roboto";
 `;
 const BannerSection = styled.section`
-    @media (max-width: 1440px) {
-    max-width: 1440px;
-    margin: auto
-  }
+   
 `;
 const BannerImage = styled.img`
   width: 100%;
@@ -76,6 +75,10 @@ const ServivcesSection = styled.section`
     max-width: 1440px;
     margin: auto;
   }
+  @media (min-width: 768px) {
+    padding: 40px 24px 40px
+  }
+  
 `;
 const Title = styled.h2`
   font-style: normal;
@@ -100,12 +103,20 @@ const MoviesSelectionSection = styled.section`
   padding: 40px 24px 80px;
   max-width: 1200px;
   margin: auto;
+  @media (min-width: 768px) {
+    padding: 40px 24px 40px
+  }
 `;
 
 const MovieList = styled.div`
   display: flex;
   column-gap: 40px;
   flex-wrap: wrap;
+  margin: auto;
+
+    @media (max-width: 768px) {
+    justify-content: center
+  }
 `;
 const MovieDetails = styled.div`
   display: flex;
@@ -115,12 +126,15 @@ const MovieDetails = styled.div`
   justify-content: center;
   max-width: calc(30.3% - 10px );
   margin: 20px 0;
+  
+  @media (max-width: 768px) {
+    max-width: calc(45% - 10px );
+  }
+  @media (max-width: 500px) {
+    max-width: calc(100% - 30px );
+  }
 `;
-const MovieImgWrapper = styled.div`
-  margin: 10px 0;
-  border-radius: 30px;
 
-`;
 const MovieImg = styled.img`
   width: 100%;
   height: 100%;
@@ -128,14 +142,30 @@ const MovieImg = styled.img`
   object-fit: cover;
 
 `;
+const MovieDescription = styled.p`
+    font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 23px;
+  text-align: center;
+  color: #333333;
+  height: 115px;
+  overflow: hidden;
+`
 const MovieTitle = styled.h6`
   font-family: "Roboto";
   font-style: normal;
   font-weight: 600;
   font-size: 26px;
-  line-height: 42px;
+  line-height: 38px;
   text-align: center;
   color: #333333;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  line-height: 24px;
+  }
 `;
 const ViewMoreButton = styled.button`
   border: none;

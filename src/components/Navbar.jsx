@@ -3,23 +3,6 @@ import styled from "styled-components";
 import logo from "../assets/logo.svg";
 
 export const Navbar = () => {
-  const upperNavList = [
-    {
-      name: "Login",
-    },
-    {
-      name: "Home",
-    },
-    {
-      name: "Ticket",
-    },
-    {
-      name: "News",
-    },
-    {
-      name: "EN",
-    },
-  ];
  
   return (
     <Container>
@@ -27,13 +10,6 @@ export const Navbar = () => {
         <LogoSection>
           <LogoImage src={logo} />
         </LogoSection>
-        <NavBarMenu>
-          <UpperNavMenu>
-            {upperNavList.map((item, index) => (
-              <NavItem key={index}>{item.name}</NavItem>
-            ))}
-          </UpperNavMenu>
-        </NavBarMenu>
       </NavWrapper>
     </Container>
   );
@@ -60,13 +36,3 @@ const LogoImage = styled.img`
   width: 100%;
   height: 100%;
 `;
-const NavBarMenu = styled.div`
-  justify-self: flex-end;
-`;
-const UpperNavMenu = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  column-gap: 30px;
-`;
-const NavItem = styled.div``
