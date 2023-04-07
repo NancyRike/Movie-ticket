@@ -4,7 +4,7 @@ import { useBookMovieTicketMutation } from "../store/api/movieApi";
 import { showErrorToast, showSuccessToast } from "../util";
 
 export const ViewTicketDetailsModal = ({ closeModal, movieId, payload }) => {
-  const [bookTicket] = useBookMovieTicketMutation();
+  const [bookTicket, {isLoading}] = useBookMovieTicketMutation();
   const [userDetails, setUserDetails] = useState({ email: "", phoneNumber: "" });
   const handleChange = (name, value) => {
     setUserDetails((prev) => ({ ...prev, [name]: value }));
@@ -22,6 +22,7 @@ export const ViewTicketDetailsModal = ({ closeModal, movieId, payload }) => {
       .unwrap()
       .then((result) => {
         showSuccessToast(result.message);
+        closeModal()
       })
       .catch((err) => {
         showErrorToast(err?.message[0]);
@@ -64,7 +65,7 @@ export const ViewTicketDetailsModal = ({ closeModal, movieId, payload }) => {
           />
         </Row>
         <ButtonContainer>
-          <SubmitButton onClick={() => handleSubmit()}>Submit</SubmitButton>
+          <SubmitButton onClick={() => handleSubmit()}>{isLoading? 'Loading ...' : 'Submit'}</SubmitButton>
           <CancelButton onClick={closeModal}>Cancel</CancelButton>
         </ButtonContainer>
       </Container>

@@ -5,122 +5,145 @@ import star from "../assets/star.svg";
 import { ViewTicketDetailsModal } from "./ViewTicketDetailModal";
 import { useLocation } from "react-router-dom";
 import { useGetSingleMovieQuery } from "../store/api/movieApi";
+import { showErrorToast } from "../util";
 
 export const BookingPage = () => {
   const [showModal, setShowModal] = useState(false);
-  const {state: id} = useLocation();
+  const { state: id } = useLocation();
 
   const [payload, setPayload] = useState({
-    dateCard: '',
-    timeCard: '',
+    dateCard: "",
+    timeCard: "",
     ticketQuantity: 1,
+  });
+  const handleChange = (name, value) => {
+    setPayload((prev) => ({ ...prev, [name]: value }));
+  };
+  const { data: getMovie } = useGetSingleMovieQuery(id);
+  const availableDates = ["10 Jan", "14 Jan", "18 Jan", "28 Jan", "04 Feb"];
+  const availableTimes = ["10: 30", "02: 15", "15: 45", "17: 00", "16: 00"];
 
-  })
-  const handleChange = (name, value)=> {
-    setPayload((prev)=> ({...prev, [name]: value}))
+  const handleShowModal = () => {
+    if (payload.dateCard === "" || payload.timeCard === "" ) {
+      showErrorToast('select date and time');
+      return
+    }
+    else if (payload.ticketQuantity < 1) {
+      showErrorToast('select valid quantity');
+      return
+    }
+    setShowModal(true)
   }
-  const {data: getMovie} = useGetSingleMovieQuery(id)
-    const availableDates = [
-     '10 Jan', '14 Jan', '18 Jan', '28 Jan', '04 Feb'
-  ]
-  const availableTimes = [
-     '10: 30', '02: 15', '15: 45', '17: 00', '16: 00'
-  ]
 
   return (
     <Container>
       <Navbar />
       <BookingWrapper>
-      <LabelHeading>Freeway Cinema</LabelHeading>
-      <BookingContainer>
-        <FormSection>
-          <ActivitySection>
-            <HeadingRow>
-              <StarIcon src={star}/>
-            <LabelSubheading>Select Preferred Movie Date</LabelSubheading>
-            </HeadingRow>
-            <TimeCardContainer>
-              {
-                availableDates.map((availableDate, index)=>{
-                  return(
-                    <TimeCard key={index} isSelected={payload.dateCard === availableDate} onClick={()=>handleChange('dateCard' ,availableDate)}>
+        <LabelHeading>Freeway Cinema</LabelHeading>
+        <BookingContainer>
+          <FormSection>
+            <ActivitySection>
+              <HeadingRow>
+                <StarIcon src={star} />
+                <LabelSubheading>Select Preferred Movie Date</LabelSubheading>
+              </HeadingRow>
+              <TimeCardContainer>
+                {availableDates.map((availableDate, index) => {
+                  return (
+                    <TimeCard
+                      key={index}
+                      isSelected={payload.dateCard === availableDate}
+                      onClick={() => handleChange("dateCard", availableDate)}
+                    >
                       <CardText>{availableDate}</CardText>
                     </TimeCard>
-                  )
-                })
-              }
-            </TimeCardContainer>
-          </ActivitySection>
-          <ActivitySection>
-          <HeadingRow>
-              <StarIcon src={star}/>
-            <LabelSubheading>Select Preferred Movie Time</LabelSubheading>
-            </HeadingRow>
-            <TimeCardContainer>
-              {
-                availableTimes.map((availableTime, index)=>{
-                  return(
-                    <TimeCard key={index} isSelected={payload.timeCard === availableTime} onClick={()=>handleChange('timeCard', availableTime)}>
+                  );
+                })}
+              </TimeCardContainer>
+            </ActivitySection>
+            <ActivitySection>
+              <HeadingRow>
+                <StarIcon src={star} />
+                <LabelSubheading>Select Preferred Movie Time</LabelSubheading>
+              </HeadingRow>
+              <TimeCardContainer>
+                {availableTimes.map((availableTime, index) => {
+                  return (
+                    <TimeCard
+                      key={index}
+                      isSelected={payload.timeCard === availableTime}
+                      onClick={() => handleChange("timeCard", availableTime)}
+                    >
                       <CardText>{availableTime}</CardText>
                     </TimeCard>
-                  )
-                })
-              }
-            </TimeCardContainer>
-          </ActivitySection>
-          <ActivitySection>
-          <HeadingRow>
-              <StarIcon src={star}/>
-            <LabelSubheading>Select Number of Tickets</LabelSubheading>
-            </HeadingRow>
-            <TimeCardContainer>
-              <InputCard min={1} onChange={(e)=>handleChange('ticketQuantity' ,e.target.value)} value={payload.ticketQuantity} type={'number'}/>
-            </TimeCardContainer>
-          </ActivitySection>
-          <ActivitySection>
-          <HeadingRow>
-              <StarIcon src={star}/>
-            <LabelSubheading>Price</LabelSubheading>
-            </HeadingRow>
-            <TimeCardContainer>
-              <InputCard value={4000 * payload.ticketQuantity}/>
-            </TimeCardContainer>
-          </ActivitySection>
-          <Button onClick={() => setShowModal(true)}>Continue</Button>
-        </FormSection>
-        <ViewingDetailsSection>
-          <MovieDetails>
+                  );
+                })}
+              </TimeCardContainer>
+            </ActivitySection>
+            <ActivitySection>
+              <HeadingRow>
+                <StarIcon src={star} />
+                <LabelSubheading>Select Number of Tickets</LabelSubheading>
+              </HeadingRow>
+              <TimeCardContainer>
+                <InputCard
+                  min={1}
+                  onChange={(e) =>
+                    handleChange("ticketQuantity", e.target.value)
+                  }
+                  value={payload.ticketQuantity}
+                  type={"number"}
+                />
+              </TimeCardContainer>
+            </ActivitySection>
+            <ActivitySection>
+              <HeadingRow>
+                <StarIcon src={star} />
+                <LabelSubheading>Price</LabelSubheading>
+              </HeadingRow>
+              <TimeCard>
+                <CardText>{4000 * payload.ticketQuantity}</CardText>
+              </TimeCard>
+            </ActivitySection>
+            <Button onClick={handleShowModal}>Continue</Button>
+          </FormSection>
+          <ViewingDetailsSection>
+            <MovieDetails>
               <MoviePoster src={getMovie?.data?.images[0]} />
-            <MovieTitle>{getMovie?.data?.title}</MovieTitle>
-            <MovieDetailsRow>
-              <MovieDetailsKey>Genre :</MovieDetailsKey>
-              <MovieDetailsValue>{getMovie?.data?.genre}</MovieDetailsValue>
-            </MovieDetailsRow>
-            <MovieDetailsRow>
-              <MovieDetailsKey>Country :</MovieDetailsKey>
-              <MovieDetailsValue>{getMovie?.data.country}</MovieDetailsValue>
-            </MovieDetailsRow>
-            <MovieDetailsRow>
-              <MovieDetailsKey>Director:</MovieDetailsKey>
-              <MovieDetailsValue>{getMovie?.data.director}</MovieDetailsValue>
-            </MovieDetailsRow>
-            <MovieDetailsRow>
-              <MovieDetailsKey>Year :</MovieDetailsKey>
-              <MovieDetailsValue>{getMovie?.data.year}</MovieDetailsValue>
-            </MovieDetailsRow>
-          </MovieDetails>
-        </ViewingDetailsSection>
-      </BookingContainer>
+              <MovieTitle>{getMovie?.data?.title}</MovieTitle>
+              <MovieDetailsRow>
+                <MovieDetailsKey>Genre :</MovieDetailsKey>
+                <MovieDetailsValue>{getMovie?.data?.genre}</MovieDetailsValue>
+              </MovieDetailsRow>
+              <MovieDetailsRow>
+                <MovieDetailsKey>Country :</MovieDetailsKey>
+                <MovieDetailsValue>{getMovie?.data.country}</MovieDetailsValue>
+              </MovieDetailsRow>
+              <MovieDetailsRow>
+                <MovieDetailsKey>Director:</MovieDetailsKey>
+                <MovieDetailsValue>{getMovie?.data.director}</MovieDetailsValue>
+              </MovieDetailsRow>
+              <MovieDetailsRow>
+                <MovieDetailsKey>Year :</MovieDetailsKey>
+                <MovieDetailsValue>{getMovie?.data.year}</MovieDetailsValue>
+              </MovieDetailsRow>
+            </MovieDetails>
+          </ViewingDetailsSection>
+        </BookingContainer>
       </BookingWrapper>
       <Footer />
-      {showModal && <ViewTicketDetailsModal payload={payload} movieId={id} closeModal={()=> setShowModal(false)} />}
+      {showModal && (
+        <ViewTicketDetailsModal
+          payload={payload}
+          movieId={id}
+          closeModal={() => setShowModal(false)}
+        />
+      )}
     </Container>
   );
 };
 
-const Container = styled.main`
-
-`;
+const Container = styled.main``;
 const BookingWrapper = styled.section`
   max-width: 1100px;
   margin: 90px auto;
@@ -133,18 +156,17 @@ const BookingWrapper = styled.section`
 const BookingContainer = styled.section`
   display: flex;
   column-gap: 100px;
-  margin-top: 40px
+  margin-top: 40px;
 `;
 const HeadingRow = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 18px;
-  column-gap: 10px
-
-`
+  column-gap: 10px;
+`;
 const StarIcon = styled.img`
-  width: 20px
-`
+  width: 20px;
+`;
 const FormSection = styled.div``;
 const ViewingDetailsSection = styled.div``;
 const ActivitySection = styled.div`
@@ -180,18 +202,16 @@ const TimeCard = styled.div`
   align-items: center;
   background-color: ${({ isSelected }) => (isSelected ? "#1A2C50" : "#ffffff")};
   color: ${({ isSelected }) => (isSelected ? "#ffffff" : "#333333")};
-
 `;
 const InputCard = styled.input`
   width: 77px;
   height: 40px;
   border: 1px solid #9da8be;
   border-radius: 4px;
- outline: none;
- padding: 2px 10px;
+  outline: none;
+  padding: 2px 10px;
   background-color: #ffffff;
-  color:#333333;
-
+  color: #333333;
 `;
 const CardText = styled.p`
   font-family: "Roboto";
@@ -200,46 +220,45 @@ const CardText = styled.p`
   font-size: 14px;
   line-height: 16px;
 `;
-const MovieDetails = styled.div``
+const MovieDetails = styled.div``;
 const MoviePoster = styled.img`
   width: 300px;
   height: 400px;
   border-radius: 20px;
   object-fit: cover;
-  
-`
+`;
 const MovieTitle = styled.h4`
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 500;
-font-size: 24px;
-line-height: 32px;
-color: #333333;
-margin: 10px auto;
-`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  color: #333333;
+  margin: 10px auto;
+`;
 
 const MovieDetailsRow = styled.div`
   display: flex;
   margin: 5px 0;
-`
+`;
 const MovieDetailsKey = styled.h5`
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 500;
-font-size: 14px;
-line-height: 19px;
-color: #333333;
-flex: 0.3;
-`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  color: #333333;
+  flex: 0.3;
+`;
 const MovieDetailsValue = styled.p`
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 19px;
-color: #333333;
-flex: 1
-`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #333333;
+  flex: 1;
+`;
 
 const Button = styled.button`
   border: none;

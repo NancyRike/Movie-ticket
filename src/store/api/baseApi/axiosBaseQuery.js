@@ -4,8 +4,6 @@ axios.interceptors.request.use(
     async (config) => {
         config.headers = {
         ...config.headers,
-        'X-RapidAPI-Key': '59e76ffc11mshdc0d8749176b450p1fccb0jsn5eb68a3450c6',
-        'X-RapidAPI-Host': 'ott-details.p.rapidapi.com'
       };
       return config;
     },
@@ -13,8 +11,6 @@ axios.interceptors.request.use(
       return Promise.reject(error);
     }
   );
-//   'X-RapidAPI-Key': '59e76ffc11mshdc0d8749176b450p1fccb0jsn5eb68a3450c6',
-//     'X-RapidAPI-Host': 'ott-details.p.rapidapi.com'
 export const axiosBaseQuery =
   ({
     baseUrl = '',

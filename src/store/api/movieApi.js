@@ -17,9 +17,10 @@ const moviesApi = baseApi.injectEndpoints({
       providesTags:(_, __, id)=> [{type: 'movies', id: id}]
     }),
     bookMovieTicket: builder.mutation({
-      query: () => ({
+      query: (payload) => ({
         url: `movies/book-movie-ticket`,
         method: 'POST',
+        data: payload
       }),
     }),
    
