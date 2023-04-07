@@ -101,32 +101,34 @@ export const BookingPage = () => {
                 <StarIcon src={star} />
                 <LabelSubheading>Price</LabelSubheading>
               </HeadingRow>
-              <TimeCard>
+              <PriceCard>
                 <CardText>{4000 * payload.ticketQuantity}</CardText>
-              </TimeCard>
+              </PriceCard>
             </ActivitySection>
             <Button onClick={handleShowModal}>Continue</Button>
           </FormSection>
           <ViewingDetailsSection>
             <MovieDetails>
-              <MoviePoster src={getMovie?.data?.images[0]} />
-              <MovieTitle>{getMovie?.data?.title}</MovieTitle>
-              <MovieDetailsRow>
-                <MovieDetailsKey>Genre :</MovieDetailsKey>
-                <MovieDetailsValue>{getMovie?.data?.genre}</MovieDetailsValue>
-              </MovieDetailsRow>
-              <MovieDetailsRow>
-                <MovieDetailsKey>Country :</MovieDetailsKey>
-                <MovieDetailsValue>{getMovie?.data.country}</MovieDetailsValue>
-              </MovieDetailsRow>
-              <MovieDetailsRow>
-                <MovieDetailsKey>Director:</MovieDetailsKey>
-                <MovieDetailsValue>{getMovie?.data.director}</MovieDetailsValue>
-              </MovieDetailsRow>
-              <MovieDetailsRow>
-                <MovieDetailsKey>Year :</MovieDetailsKey>
-                <MovieDetailsValue>{getMovie?.data.year}</MovieDetailsValue>
-              </MovieDetailsRow>
+                <MoviePoster src={getMovie?.data?.images[0]} />
+              <MovieDetailsContainer>
+                <MovieTitle>{getMovie?.data?.title}</MovieTitle>
+                <MovieDetailsRow>
+                  <MovieDetailsKey>Genre :</MovieDetailsKey>
+                  <MovieDetailsValue>{getMovie?.data?.genre}</MovieDetailsValue>
+                </MovieDetailsRow>
+                <MovieDetailsRow>
+                  <MovieDetailsKey>Country :</MovieDetailsKey>
+                  <MovieDetailsValue>{getMovie?.data.country}</MovieDetailsValue>
+                </MovieDetailsRow>
+                <MovieDetailsRow>
+                  <MovieDetailsKey>Director:</MovieDetailsKey>
+                  <MovieDetailsValue>{getMovie?.data.director}</MovieDetailsValue>
+                </MovieDetailsRow>
+                <MovieDetailsRow>
+                  <MovieDetailsKey>Year :</MovieDetailsKey>
+                  <MovieDetailsValue>{getMovie?.data.year}</MovieDetailsValue>
+                </MovieDetailsRow>
+              </MovieDetailsContainer>
             </MovieDetails>
           </ViewingDetailsSection>
         </BookingContainer>
@@ -145,6 +147,7 @@ export const BookingPage = () => {
 
 const Container = styled.main``;
 const BookingWrapper = styled.section`
+  padding: 20px 50px;
   max-width: 1100px;
   margin: 90px auto;
 
@@ -152,11 +155,21 @@ const BookingWrapper = styled.section`
     max-width: 800px;
     margin: auto;
   }
-`;
+  @media (max-width: 1000px) {
+    max-width: 600px;
+    margin: auto;
+  }
+  `;
 const BookingContainer = styled.section`
   display: flex;
   column-gap: 100px;
   margin-top: 40px;
+  
+  
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
 `;
 const HeadingRow = styled.div`
   display: flex;
@@ -191,6 +204,11 @@ const LabelSubheading = styled.h5`
 const TimeCardContainer = styled.div`
   display: flex;
   column-gap: 18px;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    row-gap: 20px
+  }
 `;
 const TimeCard = styled.div`
   width: 77px;
@@ -203,6 +221,7 @@ const TimeCard = styled.div`
   background-color: ${({ isSelected }) => (isSelected ? "#1A2C50" : "#ffffff")};
   color: ${({ isSelected }) => (isSelected ? "#ffffff" : "#333333")};
 `;
+const MovieDetailsContainer = styled.div``
 const InputCard = styled.input`
   width: 77px;
   height: 40px;
@@ -212,6 +231,10 @@ const InputCard = styled.input`
   padding: 2px 10px;
   background-color: #ffffff;
   color: #333333;
+
+  @media (max-width: 768px) {
+    flex: 1
+  }
 `;
 const CardText = styled.p`
   font-family: "Roboto";
@@ -220,7 +243,17 @@ const CardText = styled.p`
   font-size: 14px;
   line-height: 16px;
 `;
-const MovieDetails = styled.div``;
+const MovieDetails = styled.div`
+  
+  @media (max-width: 768px) {
+    display: flex;
+    column-gap: 30px
+  }
+  @media (max-width: 500px) {
+    display: block;
+    column-gap: unset
+  }
+`;
 const MoviePoster = styled.img`
   width: 300px;
   height: 400px;
@@ -249,6 +282,10 @@ const MovieDetailsKey = styled.h5`
   line-height: 19px;
   color: #333333;
   flex: 0.3;
+
+  @media (max-width: 768px) {
+    flex: 0.7
+  }
 `;
 const MovieDetailsValue = styled.p`
   font-family: "Roboto";
@@ -270,4 +307,13 @@ const Button = styled.button`
   border-radius: 5.06667px;
   color: #f2c46f;
   margin: 30px 0;
+
+  @media (max-width: 500px) {
+    width: 100%
+  }
 `;
+const PriceCard = styled(TimeCard)`
+   @media (max-width: 500px) {
+    width: 100%
+  }
+`
